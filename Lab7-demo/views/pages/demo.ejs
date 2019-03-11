@@ -1,0 +1,69 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+	<div class="container">
+		<br>
+		<!-- Begin table headers (static html) -->
+		<table class="table table-bordered" id="stats_table">
+			<tr>
+				<th class="align-bottom" rowspan="2">Game Date</th>
+				<th class="align-bottom"rowspan="2">Opposing Team Name</th>
+				<th class="text-center" colspan="2">Score</th>
+				<th class="align-bottom" rowspan="2">Winner</th>
+			</tr>
+			<tr>
+				<th>Home Score</th>
+				<th>Opp. Score</th>
+			</tr>
+
+			<!-- end table headers  -->
+
+			<!-- Magic goes here; we're still in the <table> tag -->
+			<!-- Now we'll build rows for our table (by string manipulation) -->
+
+			<!-- Rememeber <tr> tag is for a row; <td> tag is per column -->
+			<% if (games) { 
+				var game_rows = '';
+				<!-- ForEach will run the function(item){} code for each element in your games array -->
+				<!-- To see what's in games array; check your server.js - we put the out of our first query here -->
+				 games.forEach(function(item){
+				 	<!-- Loop code each `item` in our games array -->
+				 	<!-- Begin <tr> our row -->
+				 	game_rows += '<tr><td>' + item.game_date + '</td>';
+				 	<!-- Notice above how we access the game_Date(column) in sql store, we've to do the same for all the other columns down here -->
+				 	<!-- if you run your query in psql, you can see the response and can see the columns that'll be returned by the query. You can then called them like item.game_Date, item.visitor_Score, etc -->
+				 	game_rows += '<td> TODO </td>';
+				 	game_rows += '<td> TODO </td>';
+				 	game_rows += '<td> TODO </td>';
+				 	<!-- Decide who won; and fill in the last column -->
+				 	<!-- Also close the </tr> tag because our row is done. -->
+				 	if(item.home_score > item.visitor_score)
+				 	{
+				 		game_rows += '<td>CU Boulder</td></tr>';
+					 }
+					 else
+					 {
+					 	game_rows += '<td>' + item.visitor_name + '</td></tr>';
+					 }
+				});%>
+				<!-- We built this game_rows by string manipulation and now it contains all the rows of data -->
+				<!-- We can display these rows just by accessing the game_rows element like we did here: Notice the tag used this time  -->
+			<%- game_rows %>
+			<% } %>
+		</table>
+		<!-- Close of the Table tag -->
+		<!-- Now we edit the Wins/Losses table at the bottom of the screen -->
+		<br>
+		<table class="table text-center">
+			<tr>
+				<th>Wins</th>
+				<th>Losses</th>
+			</tr>
+			<tr>
+				<td> TODO: show total wins here </td>
+				<!-- Display the total_losses variable here; set in server.js -->
+				<td> <%- total_losses %></td>
+			</tr>
+		</table>
+		
+	</div>
+<% include ../partials/footer %>
